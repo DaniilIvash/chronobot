@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmuwllfwgdc0m"]
+
+[ext_resource type="Texture2D" uid="uid://bs4rnh6ruft5o" path="res://enemies/soldier/enemy-bullet.png" id="1_0ukel"]
+[ext_resource type="Script" uid="uid://dkribeh78bmhf" path="res://enemies/soldier/enemy_bullet.gd" id="2_uw0t0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s83gs"]
+atlas = ExtResource("1_0ukel")
+region = Rect2(0, 0, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ycif"]
+atlas = ExtResource("1_0ukel")
+region = Rect2(10, 0, 10, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5xpuv"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s83gs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ycif")
+}],
+"loop": true,
+"name": &"shot",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x8o8e"]
+
+[node name="EnemyBullet" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_5xpuv")
+animation = &"shot"
+script = ExtResource("2_uw0t0")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_x8o8e")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
